@@ -1,0 +1,16 @@
+*~
+*.log
+*.pyc
+.DS_Store
+build/**/*
+dist/**/*
+vobject.egg-info/**/*
+.idea/
+.venv/
+venv/
+*.sublime-*
+.coverage
+
+*.env
+rough.py
+project_name/
