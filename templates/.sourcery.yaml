@@ -1,0 +1,14 @@
+rule_settings:
+  enable:
+    - default
+    - gpsg-standard-import-alias
+  disable:
+    - no-loop-in-tests
+    - no-conditionals-in-tests
+    - use-named-expression
+    - raise-from-previous-error
+  rule_types:
+    - refactoring
+    - suggestion
+    - comment
+  python_version: '3.9'
