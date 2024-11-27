@@ -1,0 +1,23 @@
+project:
+  name: todo-app
+  include:
+    - pre_commit
+    - sourcery
+    - license : mit
+    - readme
+
+todo-app:
+  - src:
+    - __init__.py
+    - main.py
+    - utils.py
+    - config.py
+    - sub-module:
+        - __init__.py
+  - tests:
+    - __init__.py
+
+  - requirements.txt
+  - setup.py
+  - pyproject.toml
+  - .gitignore

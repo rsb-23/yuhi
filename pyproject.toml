@@ -45,7 +45,7 @@ Releases = "https://github.com/rsb-23/yuhi/releases"
 [tool.hatch.version]
 path = "src/__about__.py"
 [tool.hatch.build.targets.wheel]
-packages = ["src", "templates"]
+packages = ["src", "templates", "samples"]
 
 [tool.black]
 target-version = ["py39", "py310", "py311", "py312"]

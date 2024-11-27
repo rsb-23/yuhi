@@ -3,6 +3,7 @@ from __future__ import annotations
 import importlib.resources as resource
 from contextlib import contextmanager
 from datetime import datetime
+from functools import partial
 from pathlib import Path
 
 import click
@@ -20,10 +21,13 @@ def read_toml(filename: str):
 
 
 @contextmanager
-def get_template(filename: str):
+def get_template(filename: str, folder="templates"):
     # Access file content
-    with resource.open_binary("templates", filename) as file:
+    with resource.open_binary(folder, filename) as file:
         yield file
+
+
+get_sample = partial(get_template, folder="samples")
 
 
 def create_file(filepath: str, content: str | bytes = b""):

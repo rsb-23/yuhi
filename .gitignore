@@ -13,4 +13,4 @@ venv/
 
 *.env
 rough.py
-project_name/
+/project*

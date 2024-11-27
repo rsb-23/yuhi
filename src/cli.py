@@ -1,7 +1,7 @@
 import click
 
 from src.__about__ import __version__
-from src.commands import add, create
+from src.commands import add, create, sample
 
 
 @click.group()
@@ -12,6 +12,7 @@ def cli():
 
 cli.add_command(add)  # noqa
 cli.add_command(create)  # noqa
+cli.add_command(sample)  # noqa
 
 if __name__ == "__main__":
     cli()
