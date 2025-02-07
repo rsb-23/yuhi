@@ -1,3 +1,4 @@
+# pylint: disable =invalid-name
 from enum import StrEnum
 
 
@@ -12,17 +13,18 @@ class Facet(StrEnum):
     sourcery = "sourcery"
 
 
-class RootFile:
+class RootFile(StrEnum):
     contribution = "CONTRIBUTING.md"
     gitignore = ".gitignore"
     license = "LICENSE"
     pre_commit_yaml = ".pre-commit-config.yaml"
+    pylint = ".pylintrc"
     pyproject_toml = "pyproject.toml"
     readme = "README.md"
     sourcery_config = ".sourcery.yaml"
 
 
-class Template:
+class Template(StrEnum):
     gitignore = "gitignore.txt"
     pre_commit_pref = "pre_commit.toml"
     tests = "tests.toml"

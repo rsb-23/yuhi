@@ -11,7 +11,7 @@ authors = [
     { name = "Rishabh B", email = "null@example.com" }
 ]
 classifiers = [
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 4 - Beta",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
@@ -27,7 +27,7 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 keywords = ["yuhi", "project", "boilerplate"]
-dependencies = ["click" ]
+dependencies = ["click", "requests", "PyYAML", "toml; python_version < '3.11'"]
 requires-python = ">=3.9"
 [project.optional-dependencies]
 dev = ["pre-commit", "coverage", "pytest"]
@@ -62,11 +62,23 @@ per-file-ignores = ["*/__init__.py: F401"]
 profile = "black"
 line_length = 120
 multi_line_output = 3
+split_on_trailing_comma = false
 
-[tool.pylint.format]
-max-line-length = 120
+[tool.pylint]
+jobs = 2
+ignore-paths = ["(?!(src|tests))/*"]
+max-line-length = 130
+
+[tool.pylint.messages_control]
+disable = [
+    "I",
+    "import-error",
+    "fixme",
+    "missing-docstring",
+    "duplicate-code",
+]
 
 [tool.coverage.report]
 fail_under = 70.0
 [tool.coverage.run]
-source = [ "src/" ]
+source = ["src/"]

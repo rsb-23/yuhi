@@ -14,3 +14,4 @@ venv/
 *.env
 rough.py
 /project*
+yuhi-*

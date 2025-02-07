@@ -30,11 +30,11 @@ def add_gitignore():
 def add_license(name):
     """Adds a license based on github template"""
     click.echo(f"Adding {name} license..")
-    resp = requests.get(f"https://api.github.com/licenses/{name}")
+    resp = requests.get(f"https://api.github.com/licenses/{name}", timeout=90)
     if resp.status_code == 404:
         click.echo(f"Invalid license name {name}", err=True)
         return
-    elif resp.status_code != 200:
+    if resp.status_code != 200:
         click.echo("Unknown error", err=True)
         return
 

@@ -10,8 +10,19 @@
 A CLI tool to create project structue based on standard and custom templates.
 > Yuhi /y-oo-n-h-ee/ is a Hindi word meaning "casually" or "at random"
 
+## Installation
+
+```
+pip install yuhi
+```
+
+## Usage
+
+![help_txt](extras/help_txt.png)
+
+
 ---
-Made with :heart:
+Made with 💚
 
 [precommit-badge]: https://github.com/rsb-23/yuhi/actions/workflows/pre-commit.yml/badge.svg
 [tests-badge]: https://github.com/rsb-23/yuhi/actions/workflows/test.yml/badge.svg
