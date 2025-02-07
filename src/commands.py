@@ -2,6 +2,7 @@ import click
 
 from src.common import create_file, get_sample
 from src.facets import SUBGROUP_ADD, SUBGROUP_CREATE
+from src.facets.scanner import run_scan
 
 
 @click.group()
@@ -32,3 +33,9 @@ def sample(name):
         sample_name = f"{name}.yaml"
     with get_sample(sample_name) as f:
         create_file(sample_name, content=f.read())
+
+
+@click.command()
+def scan():
+    """lists all bad packages in requirements.txt"""
+    run_scan()

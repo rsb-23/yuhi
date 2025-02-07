@@ -3,6 +3,7 @@ import click
 from src.common import append_file, create_file, get_template
 
 from .constants import RootFile, Template
+from .pylint_handler import get_pylint_config
 
 
 @click.command("pre-commit")
@@ -18,6 +19,13 @@ def add_pre_commit():
     append_file(RootFile.pyproject_toml, config)
 
     # TODO: run installations and autoupdates, after .venv setup
+
+
+@click.command("pylint")
+def add_pylint():
+    """Adds pylint facet"""
+    click.echo("adding pylint...")
+    create_file(RootFile.pylint, get_pylint_config(), use_file_prefix=True)
 
 
 @click.command("sourcery")

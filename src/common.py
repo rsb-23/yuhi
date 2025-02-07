@@ -13,6 +13,8 @@ try:
 except ImportError:
     import toml
 
+FILE_PREFIX = "yuhi-"
+
 
 def read_toml(filename: str):
     with open(filename, "rb") as f:
@@ -30,11 +32,15 @@ def get_template(filename: str, folder="templates"):
 get_sample = partial(get_template, folder="samples")
 
 
-def create_file(filepath: str, content: str | bytes = b""):
+def create_file(filepath: str, content: str | bytes = b"", use_file_prefix=False):
     filepath = Path(filepath)
     if filepath.exists():
         click.echo(f"SKIPPING : {filepath} already exists", color=True)
-        return
+        if use_file_prefix:
+            filepath = Path(FILE_PREFIX + filepath.name)
+            click.echo(f"USING : {filepath} instead", color=True)
+        else:
+            return
     if isinstance(content, str):
         content = content.encode()
     with open(filepath, "wb") as fw:
