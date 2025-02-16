@@ -29,9 +29,10 @@ classifiers = [
 keywords = ["yuhi", "project", "boilerplate"]
 dependencies = ["click", "requests", "PyYAML", "toml; python_version < '3.11'"]
 requires-python = ">=3.9"
-[project.optional-dependencies]
-dev = ["pre-commit", "coverage", "pytest"]
 
+[project.optional-dependencies]
+lint = ["pre-commit", "pylint"]
+test = ["coverage", "pytest"]
 
 [project.scripts]
 yuhi = "src.cli:cli"

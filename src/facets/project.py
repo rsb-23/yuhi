@@ -36,7 +36,7 @@ def _create_files(structure_data, parent_path=Path()):
 def create_structure(structure_file: str):
     """Creates all folders and files as structured in project.yaml"""
     filename = Path(structure_file)
-    assert filename.suffix in (".yml", ".yaml"), "Only YAML file is supported"
+    assert filename.suffix in {".yml", ".yaml"}, "Only YAML file is supported"
     with open(filename, "rb") as f:
         data = yaml.load(f, yaml.SafeLoader)
 

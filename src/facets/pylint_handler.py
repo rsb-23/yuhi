@@ -1,10 +1,10 @@
-import os
-import subprocess
 from collections import defaultdict
 from operator import itemgetter
 from pathlib import Path
 
 import click
+
+from .pkg_install import run_in_venv
 
 NAME_ARG_MAP = {
     "too-many-lines": "max-module-lines",
@@ -13,7 +13,6 @@ NAME_ARG_MAP = {
     "too-many-instance-attributes": "max-attributes",
 }
 PYLINT_REPORT = Path("yuhi-pylint.txt")
-venv_path = Path.cwd() / "venv"
 
 
 def get_lint_errors():
@@ -47,14 +46,6 @@ def get_config_arg(check_name):
     return NAME_ARG_MAP.get(check_name, f"max-{check_name[9:]}")
 
 
-def run_in_venv(cmd: str, check=True):  # TODO: move to pkg_install.py
-    env = os.environ.copy()
-    env["VIRTUAL_ENV"] = str(venv_path)
-    env["PATH"] = str(Path.cwd()) + env["PATH"]
-
-    subprocess.run(cmd, env=env, check=check, shell=True)
-
-
 def _run_pylint(folders=None):
     if not folders:
         folders = ["src", "test", "tests"]
@@ -80,8 +71,4 @@ def get_pylint_config() -> str:
 [REFACTORING]\n{sorted(config_lines) or ""}\n
 [MESSAGES CONTROL]\n{disable_errors}
 """
-    return pylint_config
-
-
-if __name__ == "__main__":
-    pass
+    return pylint_config.strip()
