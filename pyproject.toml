@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "Yuhi (यूँ ही)"
+name = "Yuhi"
 dynamic = ["version"]
 description = "Python CLI toolkit to automate project enhancement using standard config templates."
 readme = "README.md"
@@ -77,6 +77,7 @@ disable = [
     "fixme",
     "missing-docstring",
     "duplicate-code",
+    "no-name-in-module"
 ]
 
 [tool.coverage.report]
