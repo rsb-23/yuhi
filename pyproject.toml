@@ -3,9 +3,9 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "yuhi"
+name = "Yuhi (यूँ ही)"
 dynamic = ["version"]
-description = "A CLI tool to create project structue based on standard and custom templates"
+description = "Python CLI toolkit to automate project enhancement using standard config templates."
 readme = "README.md"
 authors = [
     { name = "Rishabh B", email = "null@example.com" }
@@ -38,7 +38,7 @@ test = ["coverage", "pytest"]
 yuhi = "src.cli:cli"
 
 [project.urls]
-Homepage = "https://github.com/rsb-23/yuhi"
+Docs = "https://yuhi.readthedocs.io/"
 Repository = "https://github.com/rsb-23/yuhi"
 Issues = "https://github.com/rsb-23/yuhi/issues"
 Releases = "https://github.com/rsb-23/yuhi/releases"
