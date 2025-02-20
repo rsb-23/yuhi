@@ -28,3 +28,11 @@ class Template(StrEnum):
     gitignore = "gitignore.txt"
     pre_commit_pref = "pre_commit.toml"
     tests = "tests.toml"
+
+
+class Workflow(StrEnum):
+    pre_commit = "code-lint.yml"
+    pytest = "code-test.yml"
+
+    def path(self):
+        return f"./.github/workflows/{self.value}"
