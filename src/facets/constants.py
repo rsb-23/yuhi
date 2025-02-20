@@ -31,8 +31,8 @@ class Template(StrEnum):
 
 
 class Workflow(StrEnum):
-    pre_commit = "code-lint.yaml"
-    pytest = "code-test.yaml"
+    pre_commit = "code-lint.yml"
+    pytest = "code-test.yml"
 
     def path(self):
         return f"./.github/workflows/{self.value}"
