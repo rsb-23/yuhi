@@ -7,7 +7,7 @@
 | Package        | ![pypi-v] ![pypi-downloads]                                  |
 | MetaData       | [![license-badge]][license]                                  |                                                                                                                                                                                           
 
-A CLI tool to create project structue based on standard and custom templates.
+A simple Python CLI toolkit to automate project enhancement using standard config templates.
 > Yuhi /y-oo-n-h-ee/ is a Hindi word meaning "casually" or "at random"
 
 ## Installation
