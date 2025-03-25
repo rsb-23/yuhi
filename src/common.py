@@ -5,9 +5,10 @@ from contextlib import contextmanager
 from copy import deepcopy
 from datetime import datetime
 from functools import partial
-from pathlib import Path
 
 import click
+
+from src.helper.color_path import ColorPath
 
 try:
     import tomllib as toml
@@ -35,28 +36,31 @@ get_workflow = partial(get_template, folder="templates.workflow")
 
 
 def create_file(filepath: str, content: str | bytes = b"", use_file_prefix=False):
-    filepath = Path(filepath)
+    filepath = ColorPath(filepath)
     if filepath.exists():
-        click.echo(f"SKIPPING : {filepath} already exists", color=True)
+        click.echo(f"SKIPPING : {filepath:skip} already exists")
         if not use_file_prefix:
             return
-        filepath = Path(FILE_PREFIX + filepath.name)
-        click.echo(f"USING : {filepath} instead", color=True)
+        filepath = ColorPath(FILE_PREFIX + filepath.name)
+        click.echo(f"USING : {filepath:new} instead")
 
     if isinstance(content, str):
         content = content.encode()
     filepath.parent.mkdir(parents=True, exist_ok=True)
     with open(filepath, "wb") as fw:
         fw.write(content)
-    click.echo(f"CREATED : {filepath}")
+    click.echo(f"{filepath:new}:1 : created")
 
 
 def append_file(filepath: str, content: str | bytes):
+    filepath = ColorPath(filepath)
     if isinstance(content, str):
         content = content.encode()
+    with open(filepath, "r", encoding="U8") as fw:
+        count = len(fw.readlines())
     with open(filepath, "ab") as fw:
         fw.write(content)
-    click.echo(f"UPDATED : {filepath}")
+    click.echo(f"{filepath:old}:{count + 1} : content appended")
 
 
 def today() -> datetime:

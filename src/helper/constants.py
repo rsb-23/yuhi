@@ -1,5 +1,12 @@
 # pylint: disable =invalid-name
-from enum import StrEnum
+from enum import Enum
+
+try:
+    from enum import StrEnum
+except ImportError:
+
+    class StrEnum(str, Enum):
+        pass
 
 
 class Facet(StrEnum):
@@ -28,6 +35,7 @@ class Template(StrEnum):
     gitignore = "gitignore.txt"
     pre_commit_pref = "pre_commit.toml"
     tests = "tests.toml"
+    pylint = "pylint.yaml"
 
 
 class Workflow(StrEnum):

@@ -1,8 +1,8 @@
 import click
 
 from src.common import append_file, create_file, get_template, get_workflow, read_toml
+from src.helper.constants import RootFile, Template, Workflow
 
-from .constants import RootFile, Template, Workflow
 from .pylint_handler import get_pylint_config
 
 
@@ -44,6 +44,10 @@ def add_pylint():
     """Adds pylint facet"""
     click.echo("adding pylint...")
     create_file(RootFile.pylint, get_pylint_config(), use_file_prefix=True)
+
+    with get_template(Template.pylint) as f:
+        config = f.read()
+    append_file(RootFile.pre_commit_yaml, config)
 
 
 @click.command("sourcery")
