@@ -1,8 +1,9 @@
 from collections import defaultdict
 from operator import itemgetter
-from pathlib import Path
 
 import click
+
+from src.helper.color_path import ColorPath as Path
 
 from .pkg_install import run_in_venv
 

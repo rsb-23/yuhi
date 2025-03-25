@@ -4,8 +4,7 @@ import click
 import requests
 
 from src.common import create_file, get_template, today
-
-from .constants import RootFile, Template
+from src.helper.constants import RootFile, Template
 
 
 @click.command("contribution")
