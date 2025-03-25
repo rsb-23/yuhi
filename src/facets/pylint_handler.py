@@ -6,6 +6,7 @@ import click
 
 from .pkg_install import run_in_venv
 
+PYLINT_DEFAULT_DISABLES = {"missing-docstring": "C", "duplicate-code": "R"}
 NAME_ARG_MAP = {
     "too-many-lines": "max-module-lines",
     "too-many-arguments": "max-args",
@@ -37,8 +38,8 @@ def _generate_report() -> (dict, dict):
         elif code[0] in "FEWCR":
             unique_messages[code[0]][name] += 1
 
-    unique_messages["C"]["missing-docstring"] = 0
-    unique_messages["R"]["duplicate-code"] = 0
+    for err_name, code0 in PYLINT_DEFAULT_DISABLES.items():
+        unique_messages[code0][err_name] = 0
     return unique_messages, max_config
 
 
@@ -49,26 +50,30 @@ def get_config_arg(check_name):
 def _run_pylint(folders=None):
     if not folders:
         folders = ["src", "test", "tests"]
-    disables = ",".join(["duplicate-code", "missing-docstring"])
+    disables = ",".join(["I", "F0001", *PYLINT_DEFAULT_DISABLES.keys()])
     sources = " ".join(f"./{fol}" for fol in folders if Path(fol).exists())
 
-    click.echo("Running pylint...")
-    run_in_venv(f"pylint {sources} -sn --enable=all --disable={disables} > {PYLINT_REPORT}", check=False)
+    click.echo(f"Running pylint on: ./*.py {sources}")
+    run_in_venv(f"pylint ./*.py {sources} -sn --enable=all --disable={disables} > {PYLINT_REPORT}", check=False)
+    click.echo("Report generated")
 
 
 def get_pylint_config() -> str:
+    def get_config_lines() -> str:
+        config_lines = [f"{get_config_arg(name)} = {limit}" for name, limit in max_config.items()]
+        return "\n".join(sorted(config_lines)) or ""
+
     _run_pylint()
     unique_messages, max_config = _generate_report()
-    config_lines = [f"{get_config_arg(name)} = {limit}\n" for name, limit in max_config.items()]
     disable_errors = "disable=\n\tI,"
     error_sep = "\n\t"
     for k, v in unique_messages.items():
         if v:
             msgs_with_count = (f"{msg}, #{count or 'keep'}" for msg, count in sorted(v.items()))
             disable_errors += f"\n\t# {k}\n\t{error_sep.join(msgs_with_count)}"
-    pylint_config = f"""[MASTER]\njobs=2\nignore-paths=(?!(src|tests))/*\n
+    pylint_config = f"""[MAIN]\njobs=2\nignore-patterns=^(?!^(src|tests?|.+.py)$).+$\n
 [FORMAT]\nmax-line-length = 130\n
-[REFACTORING]\n{sorted(config_lines) or ""}\n
+[DESIGN]\n{get_config_lines()}\n
 [MESSAGES CONTROL]\n{disable_errors}
 """
     return pylint_config.strip()
