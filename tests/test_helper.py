@@ -1,6 +1,6 @@
 import pytest
 
-from src.helper.color_path import Path, COLOR_MAP
+from src.helper.color_path import COLOR_MAP, Path
 
 
 def test_colored_path():
