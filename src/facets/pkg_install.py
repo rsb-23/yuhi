@@ -2,7 +2,7 @@ import os
 import subprocess
 import sys
 
-from src.helper.color_path import ColorPath as Path
+from src.helper.color_path import Path
 
 venv_path = Path.cwd() / "venv"
 

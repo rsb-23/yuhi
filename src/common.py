@@ -8,7 +8,7 @@ from functools import partial
 
 import click
 
-from src.helper.color_path import ColorPath
+from src.helper.color_path import Path
 
 try:
     import tomllib as toml
@@ -36,12 +36,12 @@ get_workflow = partial(get_template, folder="templates.workflow")
 
 
 def create_file(filepath: str, content: str | bytes = b"", use_file_prefix=False):
-    filepath = ColorPath(filepath)
+    filepath = Path(filepath)
     if filepath.exists():
         click.echo(f"SKIPPING : {filepath:skip} already exists")
         if not use_file_prefix:
             return
-        filepath = ColorPath(FILE_PREFIX + filepath.name)
+        filepath = Path(FILE_PREFIX + filepath.name)
         click.echo(f"USING : {filepath:new} instead")
 
     if isinstance(content, str):
@@ -53,7 +53,7 @@ def create_file(filepath: str, content: str | bytes = b"", use_file_prefix=False
 
 
 def append_file(filepath: str, content: str | bytes):
-    filepath = ColorPath(filepath)
+    filepath = Path(filepath)
     if isinstance(content, str):
         content = content.encode()
     with open(filepath, "r", encoding="U8") as fw:
