@@ -9,6 +9,7 @@ vobject.egg-info/**/*
 .venv*/
 venv/
 *.sublime-*
+.pytest*
 .coverage
 coverage*
 

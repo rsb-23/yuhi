@@ -7,6 +7,7 @@ from src.cli import cli
 @pytest.mark.parametrize("facet", ["contribution", ".gitignore", "license", "readme", "sourcery"])
 def test_add_facet(test_env, runner, facet):
     result = runner.invoke(cli, ["add", facet])
+    print(result.output)
     assert result.exit_code == 0
     assert "created" in result.output
 

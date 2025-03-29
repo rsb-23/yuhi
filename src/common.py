@@ -48,8 +48,7 @@ def create_file(filepath: str, content: str | bytes = b"", use_file_prefix=False
     if isinstance(content, str):
         content = content.encode()
     filepath.parent.mkdir(parents=True, exist_ok=True)
-    with open(filepath, "wb") as fw:
-        fw.write(content)
+    filepath.write_bytes(content)
     click.echo(f"{filepath:new}:1 : created")
 
 
