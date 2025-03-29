@@ -22,10 +22,10 @@ def add_gitignore():
     try:
         with get_template(Template.gitignore) as f:
             config = f.read()
-        create_file(RootFile.gitignore, config)
     except TypeError as e:
-        print(e.args)
-        print(e)
+        print(e.__traceback__)
+
+    create_file(RootFile.gitignore, config)
 
 
 @click.command("license")

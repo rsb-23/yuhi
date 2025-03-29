@@ -19,7 +19,7 @@ jobs:
           python-version: ${{ env.PY_BASE_VERSION }}
 
       - name: Run tests with coverage and enforce minimum
-        run: pytest -x --cov --cov-report=xml
+        run: pytest -x --cov --cov-report=xml -s
 
       - name: Upload coverage report
         if: always()
