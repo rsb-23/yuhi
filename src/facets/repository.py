@@ -19,9 +19,13 @@ def add_contribution():
 def add_gitignore():
     """Adds a .gitignore file to git repo"""
     click.echo("Adding .gitignore file..")
-    with get_template(Template.gitignore) as f:
-        config = f.read()
-    create_file(RootFile.gitignore, config)
+    try:
+        with get_template(Template.gitignore) as f:
+            config = f.read()
+        create_file(RootFile.gitignore, config)
+    except TypeError as e:
+        print(e.args)
+        print(e)
 
 
 @click.command("license")
