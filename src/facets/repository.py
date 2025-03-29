@@ -23,7 +23,8 @@ def add_gitignore():
         with get_template(Template.gitignore) as f:
             config = f.read()
     except TypeError as e:
-        print(e.__traceback__)
+        print(e)
+        raise e
 
     create_file(RootFile.gitignore, config)
 
