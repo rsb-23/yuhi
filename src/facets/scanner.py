@@ -10,6 +10,11 @@ def scan_pypi(package, index):
     response = s.get(f"https://pypi.org/pypi/{package}/json")
     if response.status_code == 404:
         click.echo(f"{next(index):>2} {package}")
+    if response.status_code == 200:
+        pkg_data = response.json()
+        upload_time = pkg_data["urls"][0]["upload_time"]
+        if int(upload_time[:4]) < 2018:
+            click.echo(f"{next(index):>2} {package} is too old")
 
 
 def get_dependencies() -> iter:

@@ -81,6 +81,6 @@ disable = [
 ]
 
 [tool.coverage.report]
-fail_under = 40.0
+fail_under = 75.0
 [tool.coverage.run]
 source = ["src/"]

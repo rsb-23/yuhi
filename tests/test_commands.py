@@ -1,14 +1,20 @@
-import pytest
+# pylint: disable=W0613
 
 from src.cli import cli
 
 
-@pytest.mark.parametrize("command", ["add", "create", "sample", "scan"])
-def test_command_help(runner, command):
-    result = runner.invoke(cli, [command, "--help"])
-    assert result.exit_code == 0
+def test_sample(runner, test_env):
+    response = runner.invoke(cli, ["sample", "files"])
+    assert response.exit_code == 0
+    assert "project.yaml" in response.output
+    assert "created" in response.output
+
+    response = runner.invoke(cli, ["sample", "files"])
+    assert response.exit_code == 0
+    assert "SKIPPING" in response.output
 
 
-# def test_create_structure_help(runner):
-#     result = runner.invoke(cli, ["create", "structure", "--help"])
-#     assert result.exit_code == 0
+def test_scan(runner, test_env):
+    response = runner.invoke(cli, ["scan"])
+    assert response.exit_code == 0
+    assert "1 bad package(s)" in response.output

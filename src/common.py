@@ -1,10 +1,10 @@
 from __future__ import annotations
 
-import importlib.resources as resource
 from contextlib import contextmanager
 from copy import deepcopy
 from datetime import datetime
 from functools import partial
+from importlib.resources import files
 
 import click
 
@@ -27,7 +27,8 @@ def read_toml(filename: str) -> dict:
 @contextmanager
 def get_template(filename: str, folder="templates"):
     # Access file content
-    with resource.open_binary(folder, filename) as file:
+    resource = files(folder).joinpath(filename)
+    with resource.open("r") as file:
         yield file
 
 
@@ -79,3 +80,9 @@ def deep_merge(dict1: dict, dict2: dict) -> dict:
             result[key] = deepcopy(value)
 
     return result
+
+
+def color_echo(text, color, **kwargs):
+    if color or kwargs:
+        text = click.style(text, fg=color, **kwargs)
+    click.echo(text)

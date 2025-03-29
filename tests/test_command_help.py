@@ -3,6 +3,17 @@ import pytest
 from src.cli import cli
 
 
+def test_yuhi_help(runner):
+    result = runner.invoke(cli, ["--help"])
+    assert result.exit_code == 0
+
+
+@pytest.mark.parametrize("command", ["add", "create", "sample", "scan"])
+def test_command_help(runner, command):
+    result = runner.invoke(cli, [command, "--help"])
+    assert result.exit_code == 0
+
+
 @pytest.mark.parametrize(
     "facet", ["contribution", ".gitignore", "license", "pre-commit", "pylint", "pyproject", "readme", "sourcery"]
 )
