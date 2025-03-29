@@ -6,7 +6,8 @@ try:
 except ImportError:
 
     class StrEnum(str, Enum):
-        pass
+        def __str__(self):
+            return str(self.value)
 
 
 class Facet(StrEnum):
