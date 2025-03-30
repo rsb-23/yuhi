@@ -3,7 +3,7 @@ from operator import itemgetter
 
 import click
 
-from src.helper.color_path import ColorPath as Path
+from src.helper.color_path import Path
 
 from .pkg_install import run_in_venv
 

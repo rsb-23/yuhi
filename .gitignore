@@ -6,10 +6,12 @@ build/**/*
 dist/**/*
 vobject.egg-info/**/*
 .idea/
-.venv/
+.venv*/
 venv/
 *.sublime-*
+.pytest*
 .coverage
+coverage*
 
 *.env
 rough.py

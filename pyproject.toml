@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "Yuhi"
+name = "yuhi"
 dynamic = ["version"]
 description = "Python CLI toolkit to automate project enhancement using standard config templates."
 readme = "README.md"
@@ -32,7 +32,7 @@ requires-python = ">=3.9"
 
 [project.optional-dependencies]
 lint = ["pre-commit", "pylint"]
-test = ["coverage", "pytest"]
+test = ["pytest", "pytest-cov"]
 
 [project.scripts]
 yuhi = "src.cli:cli"
@@ -81,6 +81,6 @@ disable = [
 ]
 
 [tool.coverage.report]
-fail_under = 70.0
+fail_under = 75.0
 [tool.coverage.run]
 source = ["src/"]

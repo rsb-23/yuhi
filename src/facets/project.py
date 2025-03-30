@@ -1,7 +1,7 @@
 import click
 import yaml
 
-from src.helper.color_path import ColorPath as Path
+from src.helper.color_path import Path
 
 
 @click.command("pyproject")

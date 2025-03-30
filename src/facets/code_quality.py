@@ -1,6 +1,7 @@
 import click
 
-from src.common import append_file, create_file, get_template, get_workflow, read_toml
+from src.common import append_file, color_echo, create_file, get_template, get_workflow, read_toml
+from src.helper.color_path import Path
 from src.helper.constants import RootFile, Template, Workflow
 
 from .pylint_handler import get_pylint_config
@@ -16,13 +17,19 @@ def add_pre_commit():
 
     with get_template(Template.pre_commit_pref) as f:
         config = f.read()
-        black, flake8, isort = config.split(b"\r\n\r\n")
+        black, flake8, isort = config.split("\n\n")
     config_map = {"black": black, "flake8": flake8, "isort": isort}
+
+    pyproject = Path(RootFile.pyproject_toml)
+    if not pyproject.exists():
+        pyproject.write_text("", encoding="U8")
+
     current_config = read_toml(RootFile.pyproject_toml)
+
     config = ""
     for tool in ("black", "flake8", "isort"):
-        if tool not in current_config["tool"]:
-            config += f"\n\n{config_map[tool].decode()}"
+        if tool not in current_config.get("tool", {}):
+            config += f"\n\n{config_map[tool]}"
         else:
             click.echo(f"\tSKIPPED : {tool} is already configured")
     if config:
@@ -34,9 +41,9 @@ def add_pre_commit():
     create_file(Workflow.pre_commit.path(), config)
 
     # TODO: run installations and autoupdates, after .venv setup
-    click.echo("-- pre-commit files created. --\nNow run below commands:", color=True)
-    click.echo("\tpre-commit install && pre-commit autoupdate")
-    click.echo("\tpre-commit run --all-files")
+    click.echo("-- pre-commit files created. --\nNow run below commands:")
+    color_echo("\tpre-commit install && pre-commit autoupdate", "cyan")
+    color_echo("\tpre-commit run --all-files", "cyan")
 
 
 @click.command("pylint")
