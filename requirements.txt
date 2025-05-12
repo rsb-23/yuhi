@@ -1,4 +1,4 @@
 click>=8.1.7
+httpx>=0.28.1
 toml>=0.10.2; python_version < '3.11'
 PyYAML>=6.0.2
-requests>=2.32.3

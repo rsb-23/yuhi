@@ -1,7 +1,7 @@
 """Facets related to git repositories"""
 
 import click
-import requests
+import httpx
 
 from src.common import create_file, get_template, today
 from src.helper.constants import RootFile, Template
@@ -29,7 +29,7 @@ def add_gitignore():
 def add_license(name):
     """Adds a license based on github template"""
     click.echo(f"Adding {name} license..")
-    resp = requests.get(f"https://api.github.com/licenses/{name}", timeout=90)
+    resp = httpx.get(f"https://api.github.com/licenses/{name}", timeout=90)
     if resp.status_code == 404:
         click.echo(f"Invalid license name {name}", err=True)
         return
