@@ -1,4 +1,5 @@
 # sphinx config for documentation
+# pylint: disable=invalid-name
 
 project = "Yuhi (यूँ ही)"
 description = "Python CLI toolkit to automate project enhancement using standard config templates."
