@@ -1,0 +1,4 @@
+check=1
+
+def many_arg(a,b,c,d,e,f,g,h):
+    ...

@@ -7,8 +7,8 @@ import click
 import httpx
 
 today = datetime.now()
-MIN_PACKAGE_YEAR = today.year - 5
-MAX_PACKAGE_YEAR = today.year - 1
+MIN_ACTIVE_MONTHS = 10
+MAX_INACTIVE_MONTHS = 60
 
 
 @dataclass
@@ -33,9 +33,11 @@ async def scan_pypi(client: httpx.AsyncClient, package: str) -> PackageData:
     if response.status_code == 200:
         pkg_data = response.json()
         releases = pkg_data["releases"]
-        first_release = releases[list(releases.keys())[0]]
+        for _, _data in releases.items():
+            if _data:
+                first_upload_date = _data[0][_upload_time_field]
+                break
 
-        first_upload_date = first_release[0][_upload_time_field]
         last_upload_date = pkg_data["urls"][0][_upload_time_field]
 
     return PackageData(package, response.status_code, to_date(first_upload_date), to_date(last_upload_date))
@@ -52,6 +54,10 @@ def get_package_names(pkg: str) -> str:
     return pkg.split("=", 1)[0].rstrip().rstrip(">~")
 
 
+def _age_in_months(dt: datetime) -> int:
+    return (today.year - dt.year) * 12 + (today.month - dt.month)
+
+
 async def scan_all_packages(scanner: Callable, packages: list[str]) -> int:
     bad_count = 0
     limits = httpx.Limits(max_connections=10, max_keepalive_connections=5)
@@ -61,14 +67,17 @@ async def scan_all_packages(scanner: Callable, packages: list[str]) -> int:
         results: list[PackageData] = await asyncio.gather(*tasks, return_exceptions=True)
 
     for package_data in results:
+        if isinstance(package_data, Exception):
+            click.echo(f"{package_data}: report a bug")
+            continue
         if package_data.status_code == 404:
             bad_count += 1
-            click.echo(f"{package_data.name}: INVALID")
+            click.echo(f"{package_data.name}: INVALID / DELISTED")
         elif package_data.status_code == 200:
-            if package_data.last_upload_date.year < MIN_PACKAGE_YEAR:
+            if _age_in_months(package_data.last_upload_date) > MAX_INACTIVE_MONTHS:
                 bad_count += 1
                 click.echo(f"{package_data.name}: OUTDATED")
-            elif package_data.first_upload_date.year > MAX_PACKAGE_YEAR:
+            elif _age_in_months(package_data.first_upload_date) < MIN_ACTIVE_MONTHS:
                 bad_count += 1
                 click.echo(f"{package_data.name}: RISKY")
     return bad_count
@@ -87,3 +96,7 @@ def run_scan(package_repo: str = "pypi"):
     bad_pkg_count = asyncio.run(scan_all_packages(_scanner, packages))
 
     click.echo(f"{bad_pkg_count} bad package(s) found")
+
+
+if __name__ == "__main__":
+    asyncio.run(scan_all_packages(scan_pypi, ["panda", "httpx", "yuhi", "type"]))
