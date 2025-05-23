@@ -36,7 +36,6 @@ class Template(StrEnum):
     gitignore = "gitignore.txt"
     pre_commit_pref = "pre_commit.toml"
     tests = "tests.toml"
-    pylint = "pylint.yaml"
 
 
 class Workflow(StrEnum):

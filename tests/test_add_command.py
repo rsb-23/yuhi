@@ -26,6 +26,5 @@ def test_add_pre_commit(test_env, runner):
 
 
 def test_add_pylint(test_env, runner):
-    (test_env / ".pre-commit-config.yaml").write_text("")
     result = runner.invoke(cli, ["add", "pylint"])
     assert_with_error(result, ".pylintrc:1 : created")

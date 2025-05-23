@@ -1,6 +1,6 @@
 import click
-import yaml
 
+from src.helper import yaml
 from src.helper.color_path import Path
 
 
@@ -38,7 +38,7 @@ def create_structure(structure_file: str):
     filename = Path(structure_file)
     assert filename.suffix in {".yml", ".yaml"}, "Only YAML file is supported"
     with open(filename, "rb") as f:
-        data = yaml.load(f, yaml.SafeLoader)
+        data = yaml.load(f)
 
     try:
         project_name = data["project"]["name"]
