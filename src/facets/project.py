@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import click
 
 from src.helper import yaml
@@ -12,7 +14,7 @@ def add_pyproject():
     # print(pyproject["tool"]["black"])
 
 
-def _create_files(structure_data, parent_path=Path()):
+def _create_files(structure_data: str | list | dict, parent_path=Path()):
     """Recursively traverses a nested YAML structure and create files"""
     if isinstance(structure_data, dict):
         for key, value in structure_data.items():
