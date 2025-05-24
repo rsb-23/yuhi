@@ -23,12 +23,13 @@ async def scan_pypi(client: httpx.AsyncClient, package: str) -> PackageData:
     def to_date(date_str: str) -> datetime:
         if not date_str:
             return datetime.now()
-        return datetime.fromisoformat(date_str)
+        # Invalid isoformat issue in CI, hence using format string
+        return datetime.strptime(date_str, "%Y-%m-%dT%H:%M:%S")
 
     response = await client.get(f"https://pypi.org/pypi/{package}/json")
 
     first_upload_date = last_upload_date = None
-    _upload_time_field = "upload_time_iso_8601"
+    _upload_time_field = "upload_time"
 
     if response.status_code == 200:
         pkg_data = response.json()
@@ -99,4 +100,4 @@ def run_scan(package_repo: str = "pypi"):
 
 
 if __name__ == "__main__":
-    asyncio.run(scan_all_packages(scan_pypi, ["panda", "httpx", "yuhi", "type"]))
+    asyncio.run(scan_all_packages(scan_pypi, ["panda", "isort", "yuhi", "type"]))
