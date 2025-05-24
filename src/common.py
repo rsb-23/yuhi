@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from contextlib import contextmanager
 from copy import deepcopy
-from datetime import datetime
 from functools import partial
 from importlib.resources import files
 
@@ -10,26 +9,11 @@ import click
 
 from src.helper.color_path import Path
 
-try:
-    import tomllib as toml
-except ImportError:
-    import toml
-
 FILE_PREFIX = "yuhi-"
 
 
-def read_toml(filename: str) -> dict:
-    try:
-        with open(filename, "rb") as f:
-            content = toml.load(f)
-    except TypeError:
-        with open(filename, "r", encoding="U8") as f:
-            content = toml.load(f)
-    return content
-
-
 @contextmanager
-def get_template(filename: str, folder="templates"):
+def get_template(filename: str, folder: str = "templates"):
     # Access file content
     try:
         resource = files(folder).joinpath(filename)
@@ -71,10 +55,6 @@ def append_file(filepath: str, content: str | bytes):
     click.echo(f"{filepath:old}:{count + 1} : content appended")
 
 
-def today() -> datetime:
-    return datetime.now()
-
-
 def deep_merge(dict1: dict, dict2: dict) -> dict:
     result = deepcopy(dict1)
 
@@ -87,9 +67,3 @@ def deep_merge(dict1: dict, dict2: dict) -> dict:
             result[key] = deepcopy(value)
 
     return result
-
-
-def color_echo(text, color, **kwargs):
-    if color or kwargs:
-        text = click.style(text, fg=color, **kwargs)
-    click.echo(text)

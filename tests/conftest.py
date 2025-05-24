@@ -20,8 +20,9 @@ def test_env(tmp_path_factory):
     (tmp_dir / "is_tmp").touch()  # mandatory for debugging
 
     # Add sample data
-    (tmp_dir / "requirements.txt").write_text("yuhi\npanda\n")
-    (tmp_dir / "main.py").write_text("check=1")
+    sample_req = "\n".join(["yuhi", "panda", "type", "isort"])
+    (tmp_dir / "requirements.txt").write_text(sample_req)
+    (tmp_dir / "main.py").write_text(get_test_code())
 
     original_cwd = os.getcwd()
     os.chdir(tmp_dir)
@@ -30,6 +31,11 @@ def test_env(tmp_path_factory):
     finally:
         # Change back to the original directory
         os.chdir(original_cwd)
+
+
+def get_test_code() -> str:
+    with open("tests/test_files/code.txt", "r", encoding="U8") as f:
+        return f.read()
 
 
 # no tests run here

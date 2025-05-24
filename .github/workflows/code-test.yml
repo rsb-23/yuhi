@@ -1,4 +1,6 @@
 name: Unit Tests
+permissions: { }
+
 on:
   pull_request:
     types: [ reopened ]
@@ -14,6 +16,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          persist-credentials: false
       - uses: ./.github/test-setup
         with:
           python-version: ${{ env.PY_BASE_VERSION }}
@@ -35,6 +38,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          persist-credentials: false
       - uses: ./.github/test-setup
         with:
           python-version: ${{ env.PY_BASE_VERSION }}
@@ -51,6 +55,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          persist-credentials: false
       - uses: ./.github/test-setup
         with:
           python-version: ${{ matrix.python-version }}

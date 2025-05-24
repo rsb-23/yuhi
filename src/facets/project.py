@@ -1,6 +1,8 @@
-import click
-import yaml
+from __future__ import annotations
 
+import click
+
+from src.helper import yaml
 from src.helper.color_path import Path
 
 
@@ -12,7 +14,7 @@ def add_pyproject():
     # print(pyproject["tool"]["black"])
 
 
-def _create_files(structure_data, parent_path=Path()):
+def _create_files(structure_data: str | list | dict, parent_path=Path()):
     """Recursively traverses a nested YAML structure and create files"""
     if isinstance(structure_data, dict):
         for key, value in structure_data.items():
@@ -38,7 +40,7 @@ def create_structure(structure_file: str):
     filename = Path(structure_file)
     assert filename.suffix in {".yml", ".yaml"}, "Only YAML file is supported"
     with open(filename, "rb") as f:
-        data = yaml.load(f, yaml.SafeLoader)
+        data = yaml.load(f)
 
     try:
         project_name = data["project"]["name"]
