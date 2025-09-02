@@ -7,13 +7,13 @@ on:
   push:
 
 env:
-  PY_BASE_VERSION: "3.10"
+  PY_BASE_VERSION: "3.10.11"
 
 jobs:
   coverage-test: # Tests code for base version and coverage
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
           persist-credentials: false
@@ -35,7 +35,7 @@ jobs:
     needs: coverage-test
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
           persist-credentials: false
@@ -52,7 +52,7 @@ jobs:
       matrix:
         python-version: [ "3.9", "3.11", "3.12","3.13" ]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
           persist-credentials: false
