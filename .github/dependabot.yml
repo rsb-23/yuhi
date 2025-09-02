@@ -5,3 +5,5 @@ updates:
     schedule:
       interval: "monthly"
     target-branch: "develop"
+    commit:
+      prefix : ⬆️
