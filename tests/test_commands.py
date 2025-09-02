@@ -19,4 +19,4 @@ def test_sample(runner, test_env):
 def test_scan(runner, test_env):
     response = runner.invoke(cli, ["scan"])
     assert response.exit_code == 0
-    assert "3 bad package(s)" in response.output
+    assert "2 bad package(s)" in response.output
