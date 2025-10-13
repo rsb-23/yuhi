@@ -1,5 +1,6 @@
 name: Repo Cleaner
-permissions: { }
+permissions:
+  actions: write
 
 on:
   schedule:

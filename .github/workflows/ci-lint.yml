@@ -1,4 +1,4 @@
-name: Workfllow Linter
+name: CI Lint
 permissions: { }
 
 on:
@@ -11,5 +11,7 @@ on:
 jobs:
   lint:
     uses: rsb-23/actions/.github/workflows/workflow-linter.yml@main
+    permissions:
+      security-events: write
     with:
       tools: actionlint,zizmor
