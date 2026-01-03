@@ -1,5 +1,6 @@
 name: Unit Tests
-permissions: { }
+permissions:
+  contents: read
 
 on:
   pull_request:
@@ -13,10 +14,7 @@ jobs:
   coverage-test: # Tests code for base version and coverage
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v5
-        with:
-          fetch-depth: 0
-          persist-credentials: false
+      - uses: rsb-23/actions/checkout@v1
       - uses: ./.github/test-setup
         with:
           python-version: ${{ env.PY_BASE_VERSION }}
@@ -26,7 +24,7 @@ jobs:
 
       - name: Upload coverage report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: coverage-report
           path: coverage.xml
@@ -35,10 +33,7 @@ jobs:
     needs: coverage-test
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v5
-        with:
-          fetch-depth: 0
-          persist-credentials: false
+      - uses: rsb-23/actions/checkout@v1
       - uses: ./.github/test-setup
         with:
           python-version: ${{ env.PY_BASE_VERSION }}
@@ -50,12 +45,9 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [ "3.9", "3.11", "3.12","3.13" ]
+        python-version: [ "3.11", "3.12","3.13", "3.14" ]
     steps:
-      - uses: actions/checkout@v5
-        with:
-          fetch-depth: 0
-          persist-credentials: false
+      - uses: rsb-23/actions/checkout@v1
       - uses: ./.github/test-setup
         with:
           python-version: ${{ matrix.python-version }}
