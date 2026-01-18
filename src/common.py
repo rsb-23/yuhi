@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from contextlib import contextmanager
 from copy import deepcopy
 from functools import partial
@@ -15,25 +13,21 @@ FILE_PREFIX = "yuhi-"
 @contextmanager
 def get_template(filename: str, folder: str = "templates"):
     # Access file content
-    try:
-        resource = files(folder).joinpath(filename)
-        with resource.open("r") as file:
-            yield file
-    except TypeError as e:
-        click.echo("NotImplementedError: Python version < 3.10 does not support this feature.")
-        raise NotImplementedError from e
+    resource = files(folder).joinpath(filename)
+    with resource.open("r") as file:
+        yield file
 
 
 get_sample = partial(get_template, folder="samples")
 get_workflow = partial(get_template, folder="templates.workflow")
 
 
-def create_file(filepath: str, content: str | bytes = b"", use_file_prefix=False):
+def create_file(filepath: str, content: str | bytes = b"", use_file_prefix=False) -> bool:
     filepath = Path(filepath)
     if filepath.exists():
         click.echo(f"SKIPPING : {filepath:skip} already exists")
         if not use_file_prefix:
-            return
+            return False
         filepath = Path(FILE_PREFIX + filepath.name)
         click.echo(f"USING : {filepath:new} instead")
 
@@ -42,6 +36,7 @@ def create_file(filepath: str, content: str | bytes = b"", use_file_prefix=False
     filepath.parent.mkdir(parents=True, exist_ok=True)
     filepath.write_bytes(content)
     click.echo(f"{filepath:new}:1 : created")
+    return True
 
 
 def append_file(filepath: str, content: str | bytes):

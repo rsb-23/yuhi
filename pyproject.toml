@@ -27,7 +27,7 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 keywords = ["yuhi", "project", "boilerplate"]
-dependencies = ["click", "httpx", "ruamel.yaml~=0.18.10", "toml; python_version < '3.11'"]
+dependencies = ["click", "httpx","questionary", "ruamel.yaml~=0.18.10", "toml; python_version < '3.11'"]
 requires-python = ">=3.10"
 
 [project.optional-dependencies]
@@ -81,6 +81,6 @@ disable = [
 ]
 
 [tool.coverage.report]
-fail_under = 78.0
+fail_under = 80.0
 [tool.coverage.run]
 source = ["src/"]

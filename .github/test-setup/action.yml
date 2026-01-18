@@ -7,7 +7,7 @@ inputs:
     description: "py version"
 
 runs:
-  using: "composite"
+  using: composite
   steps:
     - name: Setup Python ${{ inputs.python-version }}
       uses: rsb-23/actions/setup-python@v1
