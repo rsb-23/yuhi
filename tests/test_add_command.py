@@ -22,7 +22,7 @@ def test_add_facet(test_env, runner, facet):
 
 
 def test_add_license(test_env, runner):
-    gh_service = "src.services.github"
+    gh_service = "src.facets.repository"
     with (
         patch("questionary.select") as mock_select,
         patch(f"{gh_service}.get_licenses", return_value={"MIT License": "mit"}),
