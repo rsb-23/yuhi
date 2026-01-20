@@ -1,11 +1,14 @@
 """Facets related to git repositories"""
 
+import re
+
 import click
-import httpx
+import questionary
 
 from src.common import create_file, get_template
-from src.helper import today
+from src.helper import Path, today
 from src.helper.constants import RootFile, Template
+from src.services import get_git_user, get_license_content, get_licenses
 
 
 @click.command("contribution")
@@ -26,22 +29,35 @@ def add_gitignore():
 
 
 @click.command("license")
-@click.option("--name", default="mit")
-def add_license(name):
+def add_license():
     """Adds a license based on github template"""
-    click.echo(f"Adding {name} license..")
-    resp = httpx.get(f"https://api.github.com/licenses/{name}", timeout=90)
-    if resp.status_code == 404:
-        click.echo(f"Invalid license name {name}", err=True)
-        return
-    if resp.status_code != 200:
-        click.echo("Unknown error", err=True)
+
+    filepath = Path(RootFile.license)
+    if filepath.exists():
+        click.echo(f"SKIPPING : {filepath:skip} already exists")
         return
 
-    content: str = resp.json()["body"]
-    content = content.replace("[year]", str(today().year))
-    create_file(RootFile.license, content)
-    click.echo("⚠️ replace [fullname] in license with your git user", color=True)
+    licenses = get_licenses()
+    license_choices = list(licenses.keys())
+
+    name = questionary.select("Select a license", choices=license_choices).ask()
+    click.echo(f"Adding {name} license..")
+
+    year, author = str(today().year), get_git_user() or "<AUTHOR>"
+    content: str = get_license_content(key=licenses[name])
+    tags = re.findall(r"[\[<][\w\s]+[>\]]", content)
+    print(tags)
+    for tag in tags:
+        if tag[1:5] in ("year", "yyyy"):
+            new_val = year
+        elif "name" in tag:
+            new_val = author
+        else:
+            new_val = tag
+        content = content.replace(tag, new_val)
+
+    if create_file(RootFile.license, content):
+        click.echo(f"LICENSE ADDED: {name}", color=True)
 
 
 @click.command("readme")

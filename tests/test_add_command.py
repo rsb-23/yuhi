@@ -1,4 +1,6 @@
 # pylint: disable=w0613
+from unittest.mock import patch
+
 import pytest
 
 from src.cli import cli
@@ -19,13 +21,17 @@ def test_add_facet(test_env, runner, facet):
     assert_with_error(result, "created")
 
 
-def test_add_license(test_env, runner, mock_httpx_get):
-    mock_httpx_get.return_value.json.return_value = {"body": "[year]"}
-    # testcase
-    result = runner.invoke(cli, ["add", "license"])
-    assert_with_error(result, "created")
+def test_add_license(test_env, runner):
+    gh_service = "src.facets.repository"
+    with (
+        patch("questionary.select") as mock_select,
+        patch(f"{gh_service}.get_licenses", return_value={"MIT License": "mit"}),
+        patch(f"{gh_service}.get_license_content", return_value="[year][fullname]<program>"),
+    ):
+        mock_select.return_value.ask.return_value = "MIT License"
 
-    mock_httpx_get.assert_called_once()
+        result = runner.invoke(cli, ["add", "license"])
+        assert_with_error(result, "created")
 
 
 def test_add_pre_commit(test_env, runner):

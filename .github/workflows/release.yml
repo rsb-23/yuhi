@@ -30,14 +30,16 @@ jobs:
           pip install build twine
 
       - name: Build package
-        run: python -m build
+        run: |
+          python -m build
+          twine check dist/*
 
       - name: Create GitHub Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           TAG=${GITHUB_REF#refs/tags/}
-          gh release create $TAG --generate-notes
+          gh release create "$TAG" --generate-notes
 
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@v1.13.0

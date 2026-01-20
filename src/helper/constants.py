@@ -4,7 +4,7 @@ from enum import Enum
 try:
     from enum import StrEnum
 except ImportError:
-
+    # py3.10
     class StrEnum(str, Enum):
         def __str__(self):
             return str(self.value)

@@ -1,9 +1,6 @@
-from __future__ import annotations
-
 import click
 
-from src.helper import yaml
-from src.helper.color_path import Path
+from src.helper import Path, yaml
 
 
 @click.command("pyproject")
