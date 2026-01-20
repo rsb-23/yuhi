@@ -1,7 +1,7 @@
 import asyncio
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Callable
+from typing import Awaitable, Callable, Iterable
 
 import click
 import httpx
@@ -17,6 +17,9 @@ class PackageData:
     status_code: int
     first_upload_date: datetime
     last_upload_date: datetime
+
+
+ScannerFn = Callable[..., Awaitable[PackageData]]
 
 
 async def scan_pypi(client: httpx.AsyncClient, package: str) -> PackageData:
@@ -44,7 +47,7 @@ async def scan_pypi(client: httpx.AsyncClient, package: str) -> PackageData:
     return PackageData(package, response.status_code, to_date(first_upload_date), to_date(last_upload_date))
 
 
-def get_dependencies() -> iter:
+def get_dependencies() -> Iterable:
     packages = set()
     with open("requirements.txt", "r", encoding="U8") as file:
         packages.update(file.read().splitlines())
@@ -59,13 +62,13 @@ def _age_in_months(dt: datetime) -> int:
     return (today.year - dt.year) * 12 + (today.month - dt.month)
 
 
-async def scan_all_packages(scanner: Callable, packages: list[str]) -> int:
+async def scan_all_packages(scanner: ScannerFn, packages: list[str]) -> int:
     bad_count = 0
     limits = httpx.Limits(max_connections=10, max_keepalive_connections=5)
 
     async with httpx.AsyncClient(limits=limits, timeout=20.0) as client:
         tasks = [scanner(client, package) for package in packages]
-        results: list[PackageData] = await asyncio.gather(*tasks, return_exceptions=True)
+        results: tuple[PackageData] = await asyncio.gather(*tasks, return_exceptions=True)
 
     for package_data in results:
         if isinstance(package_data, Exception):

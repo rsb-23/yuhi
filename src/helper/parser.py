@@ -3,6 +3,7 @@ from ruamel.yaml import YAML
 try:
     import tomllib as toml
 except ImportError:
+    # py3.10
     import toml  # noqa
 
 yaml = YAML(typ="rt")
