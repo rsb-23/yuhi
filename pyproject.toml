@@ -77,7 +77,8 @@ disable = [
     "fixme",
     "missing-docstring",
     "duplicate-code",
-    "no-name-in-module"
+    "no-name-in-module",
+    "too-few-public-methods"
 ]
 
 [tool.coverage.report]

@@ -23,7 +23,7 @@ def get_lint_errors():
     yield from lint_errors
 
 
-def _generate_report() -> (dict, dict):
+def _generate_report() -> tuple[dict, dict]:
     fetcher = itemgetter(1, -2, -1)
 
     unique_messages = {x: defaultdict(int) for x in "FEWCR"}

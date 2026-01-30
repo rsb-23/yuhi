@@ -1,5 +1,4 @@
 import os
-from unittest.mock import Mock, patch
 
 import pytest
 from click.testing import CliRunner
@@ -37,16 +36,6 @@ def test_env(tmp_path_factory):
 def get_test_code() -> str:
     with open("tests/test_files/code.txt", "r", encoding="U8") as f:
         return f.read()
-
-
-@pytest.fixture
-def mock_httpx_get():
-    with patch("httpx.get") as mock_get:
-        mock_response = Mock()
-        mock_response.status_code = 200
-        mock_response.raise_for_status.return_value = None
-        mock_get.return_value = mock_response
-        yield mock_get
 
 
 # no tests run here

@@ -42,7 +42,7 @@ def add_license():
     click.echo(f"Adding {name} license..")
 
     year, author = str(today().year), get_git_user() or "<AUTHOR>"
-    content: str = get_license_content(key=licenses[name])
+    content = get_license_content(key=licenses[name])
     tags = re.findall(r"[\[<][\w\s]+[>\]]", content)
     print(tags)
     for tag in tags:
