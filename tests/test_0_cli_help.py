@@ -17,7 +17,7 @@ def test_command_help(runner, command):
 
 
 @pytest.mark.parametrize(
-    "facet", ["contribution", ".gitignore", "license", "pre-commit", "pylint", "pyproject", "readme", "sourcery"]
+    "facet", ["gh-files", ".gitignore", "license", "pre-commit", "pylint", "pyproject", "readme", "sourcery"]
 )
 def test_add_facet_help(runner, facet):
     result = runner.invoke(cli, ["add", facet, "--help"])

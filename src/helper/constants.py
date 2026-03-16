@@ -24,8 +24,18 @@ class Facet(StrEnum):
     sourcery = "sourcery"
 
 
-class RootFile(StrEnum):
+class GithubFile(StrEnum):
+    code_of_conduct = "CODE_OF_CONDUCT.md"
+    codeowners = "CODEOWNERS"
     contribution = "CONTRIBUTING.md"
+    roadmap = "ROADMAP.md"
+    security = "SECURITY.md"
+
+    def to_path(self):
+        return Path("./.github") / self.value
+
+
+class RootFile(StrEnum):
     gitignore = ".gitignore"
     license = "LICENSE"
     pre_commit_yaml = ".pre-commit-config.yaml"

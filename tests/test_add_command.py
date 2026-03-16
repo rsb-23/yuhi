@@ -13,12 +13,20 @@ def assert_with_error(result, msg):
         assert "NotImplementedError" in result.output
 
 
-@pytest.mark.parametrize("facet", ["contribution", ".gitignore", "readme", "sourcery"])
+@pytest.mark.parametrize("facet", [".gitignore", "readme", "sourcery"])
 def test_add_facet(test_env, runner, facet):
     """Test adding various facets."""
     result = runner.invoke(cli, ["add", facet])
     print(result.output)
     assert_with_error(result, "created")
+
+
+def test_add_gh_files(test_env, runner):
+    with patch("questionary.select") as mock_select:
+        mock_select.return_value.ask.return_value = "CODEOWNERS"
+
+        result = runner.invoke(cli, ["add", "gh-files"])
+        assert_with_error(result, "created")
 
 
 def test_add_license(test_env, runner):
