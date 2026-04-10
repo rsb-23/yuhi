@@ -1,10 +1,13 @@
 # pylint: disable =invalid-name
-from enum import Enum
+from importlib.resources import files
+from pathlib import Path
 
 try:
-    from enum import StrEnum
+    from enum import Enum, StrEnum
 except ImportError:
     # py3.10
+    from enum import Enum
+
     class StrEnum(str, Enum):
         def __str__(self):
             return str(self.value)
@@ -21,8 +24,18 @@ class Facet(StrEnum):
     sourcery = "sourcery"
 
 
-class RootFile(StrEnum):
+class GithubFile(StrEnum):
+    code_of_conduct = "CODE_OF_CONDUCT.md"
+    codeowners = "CODEOWNERS"
     contribution = "CONTRIBUTING.md"
+    roadmap = "ROADMAP.md"
+    security = "SECURITY.md"
+
+    def to_path(self):
+        return Path("./.github") / self.value
+
+
+class RootFile(StrEnum):
     gitignore = ".gitignore"
     license = "LICENSE"
     pre_commit_yaml = ".pre-commit-config.yaml"
@@ -31,16 +44,28 @@ class RootFile(StrEnum):
     readme = "README.md"
     sourcery_config = ".sourcery.yaml"
 
+    def from_path(self):
+        return Path(self.value)
+
+    def template(self):
+        return files("templates").joinpath(self.value)
+
 
 class Template(StrEnum):
     gitignore = "gitignore.txt"
     pre_commit_pref = "pre_commit.toml"
     tests = "tests.toml"
 
+    def from_path(self):
+        return files("templates").joinpath(self.value)
+
 
 class Workflow(StrEnum):
     pre_commit = "code-lint.yml"
     pytest = "code-test.yml"
 
-    def path(self):
-        return f"./.github/workflows/{self.value}"
+    def from_path(self):
+        return files("templates.workflow").joinpath(self.value)
+
+    def to_path(self):
+        return Path("./.github/workflows") / self.value

@@ -1,8 +1,8 @@
 import click
 
-from src.common import create_file, get_sample
 from src.facets import SUBGROUP_ADD, SUBGROUP_CREATE
 from src.facets.scanner import run_scan
+from src.helper.file_handler import create_file, get_sample
 
 
 @click.group()
@@ -31,8 +31,7 @@ def sample(name):
         sample_name = "project.yaml"
     else:
         sample_name = f"{name}.yaml"
-    with get_sample(sample_name) as f:
-        create_file(sample_name, content=f.read())
+    create_file(sample_name, content=get_sample(sample_name))
 
 
 @click.command()

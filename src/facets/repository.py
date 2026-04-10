@@ -5,17 +5,18 @@ import re
 import click
 import questionary
 
-from src.common import create_file, get_template
 from src.helper import Path, today
-from src.helper.constants import RootFile, Template
+from src.helper.constants import GithubFile, RootFile, Template
+from src.helper.file_handler import copy_to_local, create_file
 from src.services import get_git_user, get_license_content, get_licenses
 
 
-@click.command("contribution")
-def add_contribution():
-    """Adds a CONTRIBUTION file to the repo"""
-    click.echo("Adding CONTRIBUTION file..")
-    create_file(RootFile.contribution)
+@click.command("gh-files")
+def add_github_files():
+    """Adds a Github file to the repo/.github/ {SECURITY.md, etc.}"""
+    file_choices = [x.value for x in GithubFile]
+    filename = questionary.select("Select a MD file to be added..", choices=file_choices).ask()
+    create_file(GithubFile(filename).to_path())
 
 
 # @click.command("gitignore")
@@ -23,9 +24,7 @@ def add_contribution():
 def add_gitignore():
     """Adds a .gitignore file to git repo"""
     click.echo("Adding .gitignore file..")
-    with get_template(Template.gitignore) as f:
-        config = f.read()
-    create_file(RootFile.gitignore, config)
+    copy_to_local(source=Template.gitignore, destination=RootFile.gitignore)
 
 
 @click.command("license")
@@ -44,7 +43,7 @@ def add_license():
     click.echo(f"Adding {name} license..")
 
     year, author = str(today().year), get_git_user() or "<AUTHOR>"
-    content: str = get_license_content(key=licenses[name])
+    content = get_license_content(key=licenses[name])
     tags = re.findall(r"[\[<][\w\s]+[>\]]", content)
     print(tags)
     for tag in tags:

@@ -10,7 +10,7 @@ runs:
   using: composite
   steps:
     - name: Setup Python ${{ inputs.python-version }}
-      uses: rsb-23/actions/setup-python@v1
+      uses: rsb-23/actions/setup-python@main
       with:
         python-version: ${{ inputs.python-version }}
     - name: Installing test deps...

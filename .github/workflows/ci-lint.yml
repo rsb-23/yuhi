@@ -15,3 +15,5 @@ jobs:
       security-events: write
     with:
       tools: actionlint,zizmor
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
