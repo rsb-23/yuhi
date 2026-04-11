@@ -1,1 +1,4 @@
-__version__ = "0.0.8"
+# Do not modify manually
+from importlib.metadata import version
+
+__version__ = version("yuhi")
