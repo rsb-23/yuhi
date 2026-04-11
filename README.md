@@ -18,7 +18,7 @@ pip install yuhi
 
 ## Usage
 
-![help_txt](extras/help_txt.png)
+![help_txt](https://github.com/rsb-23/yuhi/blob/main/extras/help_txt.png)
 
 
 ---
