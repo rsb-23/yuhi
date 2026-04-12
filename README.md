@@ -13,7 +13,7 @@ A simple Python CLI toolkit to automate project enhancement using standard confi
 ## Installation
 
 ```
-pip install yuhi
+pipx install yuhi
 ```
 
 ## Usage
