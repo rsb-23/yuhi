@@ -11,8 +11,10 @@ def add_pyproject():
     # print(pyproject["tool"]["black"])
 
 
-def _create_files(structure_data: str | list | dict, parent_path=Path()):
+def _create_files(structure_data: str | list | dict, parent_path=None):
     """Recursively traverses a nested YAML structure and create files"""
+    parent_path = parent_path or Path()
+
     if isinstance(structure_data, dict):
         for key, value in structure_data.items():
             _create_files(value, parent_path / key)

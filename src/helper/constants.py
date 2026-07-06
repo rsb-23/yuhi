@@ -1,16 +1,7 @@
 # pylint: disable =invalid-name
+from enum import StrEnum
 from importlib.resources import files
 from pathlib import Path
-
-try:
-    from enum import Enum, StrEnum
-except ImportError:
-    # py3.10
-    from enum import Enum
-
-    class StrEnum(str, Enum):
-        def __str__(self):
-            return str(self.value)
 
 
 class Facet(StrEnum):

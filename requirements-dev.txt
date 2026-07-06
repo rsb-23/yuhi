@@ -1,6 +1,0 @@
-pre-commit
-pytest
-coverage
-build
-hatchling
-twine

@@ -1,7 +1,7 @@
 import asyncio
+from collections.abc import Awaitable, Callable, Iterable
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Awaitable, Callable, Iterable
 
 import click
 import httpx
@@ -70,7 +70,7 @@ async def scan_pypi(http: HttpService, packages: list[str]) -> PackageDataList:
         if response.status_code == 200:
             pkg_data = response.json()
             releases = pkg_data["releases"]
-            for _, _data in releases.items():
+            for _data in releases.values():
                 if _data:
                     first_upload_date = _data[0][_upload_time_field]
                     break
@@ -90,7 +90,7 @@ async def scan_pypi(http: HttpService, packages: list[str]) -> PackageDataList:
 
 def get_dependencies() -> Iterable:
     packages = set()
-    with open("requirements.txt", "r", encoding="U8") as file:
+    with open("requirements.txt", encoding="U8") as file:
         packages.update(file.read().splitlines())
     return packages
 

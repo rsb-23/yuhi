@@ -5,9 +5,10 @@ import sys
 from src.helper.color_path import Path
 
 venv_path = Path.cwd() / "venv"
+WINDOWS = os.name == "nt"
 
 
-def run_in_venv(cmd: str, check=True):
+def run_in_venv(cmd: str, *, check=True):
     env = os.environ.copy()
     env["VIRTUAL_ENV"] = str(venv_path)
     env["PATH"] = str(Path.cwd()) + env["PATH"]
@@ -19,7 +20,7 @@ def create_venv(venv_dir=".venv"):
     # TODO: this is temp code
     venv_dir = Path(venv_dir)
     # Create the virtual environment
-    if not os.path.exists(venv_dir):
+    if not venv_dir.exists():
         subprocess.run([sys.executable, "-m", "venv", venv_dir.name], check=True)
         print(f"Virtual environment created at {venv_dir}")
     else:
@@ -34,11 +35,9 @@ def create_venv(venv_dir=".venv"):
 def install_requirements(venv_dir="venv", requirements_file="requirements.txt"):
     # TODO: this is temp code
     # Path to pip in the virtual environment
-    pip_executable = (
-        os.path.join(venv_dir, "Scripts", "pip") if os.name == "nt" else os.path.join(venv_dir, "bin", "pip")
-    )
+    pip_executable = Path(venv_dir, "Scripts", "pip") if WINDOWS else Path(venv_dir, "bin", "pip")
 
-    if os.path.exists(requirements_file):
+    if Path(requirements_file).exists():
         subprocess.run([pip_executable, "install", "-r", requirements_file], check=True)
         print(f"Installed requirements from {requirements_file}")
     else:

@@ -18,7 +18,7 @@ PYLINT_REPORT = Path("yuhi-pylint.txt")
 
 
 def get_lint_errors():
-    with open(PYLINT_REPORT, "r", encoding="U8") as f:
+    with open(PYLINT_REPORT, encoding="U8") as f:
         lint_errors = f.readlines()
     yield from lint_errors
 
