@@ -1,0 +1,67 @@
+site_name: Yuhi
+site_description: Python CLI toolkit to automate project enhancement using standard config templates.
+site_author: Rishabh B
+repo_url: https://github.com/rsb-23/yuhi
+repo_name: rsb-23/yuhi
+docs_dir: docs
+site_dir: site
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: green
+      accent: light green
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: green
+      accent: light green
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - search.highlight
+    - search.suggest
+    - content.code.copy
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [src]
+          options:
+            show_root_heading: true
+            show_source: true
+            docstring_style: google
+            docstring_section_style: table
+            show_signature_annotations: true
+            show_submodules: true
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+  - admonition
+  - pymdownx.details
+
+nav:
+  - Home: index.md
+  - API Reference:
+      - CLI: api/cli.md
+      - Commands: api/commands.md
+      - Glossary: api/glossary.md
+      - Facets:
+          - Overview: api/facets/index.md
+          - Code Quality: api/facets/code_quality.md
+          - Package Install: api/facets/pkg_install.md
+          - Project: api/facets/project.md
+          - Pylint Handler: api/facets/pylint_handler.md
+          - Repository: api/facets/repository.md
+          - Scanner: api/facets/scanner.md

@@ -1,17 +1,17 @@
 default_hooks: [ isort, black, pre-commit-hooks, flake8 ]
 isort:
   repo: https://github.com/PyCQA/isort
-  rev: 6.0.1
+  rev: 8.0.1
   hooks:
     - id: isort
 black:
   repo: https://github.com/psf/black-pre-commit-mirror
-  rev: 25.1.0
+  rev: 26.3.0
   hooks:
     - id: black
 pre-commit-hooks:
   repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v5.0.0
+  rev: v6.0.0
   hooks:
     - id: check-yaml
     - id: end-of-file-fixer
@@ -19,7 +19,7 @@ pre-commit-hooks:
       args: [ -b, main, -b, master ]
 flake8:
   repo: https://github.com/PyCQA/flake8
-  rev: 7.1.2
+  rev: 7.3.0
   hooks:
     - id: flake8
       additional_dependencies: [ flake8-pyproject ]

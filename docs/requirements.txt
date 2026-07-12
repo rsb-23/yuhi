@@ -1,2 +1,4 @@
-sphinx-pyproject==0.3.0
-yuhi
+mkdocs>=1.6
+mkdocs-material>=9.5
+mkdocstrings[python]>=0.25
+griffe>=0.48

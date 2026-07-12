@@ -1,4 +1,4 @@
-import os
+from contextlib import chdir
 
 import pytest
 from click.testing import CliRunner
@@ -24,17 +24,12 @@ def test_env(tmp_path_factory):
     (tmp_dir / "requirements.txt").write_text(sample_req)
     (tmp_dir / "main.py").write_text(get_test_code())
 
-    original_cwd = os.getcwd()
-    os.chdir(tmp_dir)
-    try:
+    with chdir(tmp_dir):
         yield tmp_dir
-    finally:
-        # Change back to the original directory
-        os.chdir(original_cwd)
 
 
 def get_test_code() -> str:
-    with open("tests/test_files/code.txt", "r", encoding="U8") as f:
+    with open("tests/test_files/code.txt", encoding="U8") as f:
         return f.read()
 
 
