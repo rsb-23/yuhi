@@ -1,4 +1,4 @@
-exclude = [".git", "__pycache__", ".venv"]
+include = ["src**/*.py", "tests/**/*.py"]
 line-length = 120
 output-format = "concise"
 target-version = "py311"
