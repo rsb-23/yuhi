@@ -1,6 +1,4 @@
 name: Code Lint
-permissions:
-  contents: read
 
 on:
   pull_request:
@@ -11,11 +9,11 @@ jobs:
   pre-commit:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v8
         with:
           fetch-depth: 0
           persist-credentials: false
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v8
         with:
           python-version: 3.11
           cache: pip
@@ -29,3 +27,9 @@ jobs:
         env:
           SKIP: mypy, pylint, no-commit-to-branch
         run: trun pre-commit run --all-files
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions: { }

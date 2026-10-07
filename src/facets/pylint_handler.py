@@ -18,7 +18,7 @@ PYLINT_REPORT = Path("yuhi-pylint.txt")
 
 
 def get_lint_errors():
-    with open(PYLINT_REPORT, encoding="U8") as f:
+    with PYLINT_REPORT.open(encoding="U8") as f:
         lint_errors = f.readlines()
     yield from lint_errors
 
@@ -62,7 +62,7 @@ def _run_pylint(folders=None):
 def get_pylint_config() -> str:
     def get_config_lines() -> str:
         config_lines = [f"{get_config_arg(name)} = {limit}" for name, limit in max_config.items()]
-        return "\n".join(sorted(config_lines)) or ""
+        return "\n".join(sorted(config_lines))
 
     _run_pylint()
     unique_messages, max_config = _generate_report()

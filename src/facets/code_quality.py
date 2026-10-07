@@ -28,8 +28,8 @@ def _add_hooks_yaml(*hooks: str):
             continue
         if "hooks" not in repo:
             continue
-        for hook in repo["hooks"]:
-            _current_hooks.add(hook["id"])
+        _current_hooks.add(hook["id"] for hook in repo["hooks"])
+
     for hook in hooks:
         if hook in _current_hooks:
             continue
